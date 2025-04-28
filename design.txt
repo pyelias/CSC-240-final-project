@@ -1,0 +1,22 @@
+bayes' theorem
+
+P(email is spam | email contains word) = P(email contains word | email is spam) * P(email is spam) / P(email contains word)
+
+assuming chances of appearance for different words are independent (they're not, but it's easier to model),
+we can calculate the chance of an email being spam by multiplying
+
+P(email contains word | email is spam) / P(email contains word)
+
+for every word appearing in the email
+(or just the words we decide to use as features)
+
+
+we implement this using 3 categories
+spam, ham, and all
+
+spam stores P(email contains word | email is spam)
+ham stores P(email contains word | email is ham)
+all stores P(email contains word)
+
+we can compare spam vs ham scores to determine which one an email is more likely to be
+and optionally, normalize these scores by factoring out the all category
