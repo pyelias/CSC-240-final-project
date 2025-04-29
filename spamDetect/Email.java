@@ -48,7 +48,7 @@ public class Email {
              BufferedWriter writer = new BufferedWriter(fileWriter)) {
             writer.write("email,label\n");
             for (Email email : emails) {
-                writer.write(email.getText().getText() + "," + email.isSpam() + "\n");
+                writer.write(email.getText().getText() + "," + (email.isSpam() ? "1" : "0") + "\n");
             }
         }
     }

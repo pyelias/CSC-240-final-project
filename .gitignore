@@ -1,3 +1,6 @@
 cat-*
 test.csv
 train.csv
+unlabeled_test.csv
+predictions.csv
+*.class

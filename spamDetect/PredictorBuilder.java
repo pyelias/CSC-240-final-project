@@ -77,18 +77,12 @@ public class PredictorBuilder {
     private boolean shouldWordBeFeature(String word) {
         int spamCount = spamCounts.getCount(word);
         int hamCount = hamCounts.getCount(word);
-        if (word.equals("enlarge")) {
-            System.out.println(spamCount + " " + hamCount);
-        }
         if (spamCount + hamCount < MIN_COUNT) {
             return false;
         }
 
         double spamFreq = (spamCount + 1.0) / (spamCounts.getTotalCount() + 1);
         double hamFreq = (hamCount + 1.0) / (hamCounts.getTotalCount() + 1);
-        if (word.equals("enlarge")) {
-            System.out.println(spamFreq + " " + hamFreq);
-        }
         if (probDifference(spamFreq, hamFreq) < MIN_PROB_DIFFERENCE && probDifference(1 - spamFreq, 1 - hamFreq) < MIN_PROB_DIFFERENCE) {
             return false;
         }
