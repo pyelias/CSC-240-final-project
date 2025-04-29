@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import spamDetect.Email;
-import spamDetect.EmailCategoryBuilder;
 import spamDetect.EmailText;
+import spamDetect.Predictor;
+import spamDetect.PredictorBuilder;
 
 
 public class Main {
@@ -31,24 +32,30 @@ public class Main {
         EmailText.writeListToFile(testData, test);
     }
 
+    public static void makePredictions(File test, Predictor categories) throws IOException {
+        ArrayList<EmailText> testData = EmailText.readListFromFile(test);
+        ArrayList<Email> predictions = new ArrayList<>();
+        for (EmailText text : testData) {
+            
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         splitTrainTestData(new File("spam_or_not_spam.csv"), new File("train.csv"), new File("test.csv"));
 
         List<Email> emails = Email.readListFromFile(new File("spam_or_not_spam.csv"));
-        EmailCategoryBuilder builder = new EmailCategoryBuilder();
+        PredictorBuilder builder = new PredictorBuilder();
         builder.addEmails(emails);
-        EmailCategoryBuilder.Result categories = builder.build();
+        Predictor predictor = builder.build();
 
-        categories.spam.writeToFile(new File("cat-spam.csv"));
-        categories.ham.writeToFile(new File("cat-ham.csv"));
-        categories.all.writeToFile(new File("cat-all.csv"));
+        predictor.getSpamCategory().writeToFile(new File("cat-spam.csv"));
+        predictor.getHamCategory().writeToFile(new File("cat-ham.csv"));
+        predictor.getAllCategory().writeToFile(new File("cat-all.csv"));
 
         EmailText testEmail = new EmailText("free click hyperlink now winner sir madam best bank investment remove special service");
-        double spamScore = categories.spam.scoreEmail(testEmail);
-        double hamScore = categories.ham.scoreEmail(testEmail);
-        double allScore = categories.all.scoreEmail(testEmail);
-        System.out.println(spamScore + " " + hamScore + " " + allScore);
-        System.out.println("spam score: " + (spamScore - allScore));
-        System.out.println("ham score: " + (hamScore - allScore));
+        double spamScore = predictor.getSpamScore(testEmail);
+        double hamScore = predictor.getHamScore(testEmail);
+        System.out.println("spam score: " + spamScore);
+        System.out.println("ham score: " + hamScore);
     }
 }

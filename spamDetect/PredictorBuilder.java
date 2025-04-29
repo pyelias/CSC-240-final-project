@@ -33,7 +33,7 @@ class WordFreqCounter {
     }
 }
 
-public class EmailCategoryBuilder {
+public class PredictorBuilder {
     // word must appear this many times to be used as a feature
     private final int MIN_COUNT = 30;
     // word must appear at different rates in spam vs ham to be used as a feature
@@ -48,7 +48,7 @@ public class EmailCategoryBuilder {
         public EmailCategory all;
     }
 
-    public EmailCategoryBuilder() {
+    public PredictorBuilder() {
         spamCounts = new WordFreqCounter();
         hamCounts = new WordFreqCounter();
         words = new HashSet<>();
@@ -102,7 +102,7 @@ public class EmailCategoryBuilder {
         return features;
     }
 
-    public Result build() {
+    public Predictor build() {
         HashMap<String, Double> spamProbs = new HashMap<>();
         HashMap<String, Double> hamProbs = new HashMap<>();
         HashMap<String, Double> allProbs = new HashMap<>();
@@ -118,10 +118,9 @@ public class EmailCategoryBuilder {
             allProbs.put(word, (spamCount + hamCount + 2.0) / (spamTotal + hamTotal + 4));
         }
         
-        Result res = new Result();
-        res.spam = new EmailCategory(spamProbs);
-        res.ham = new EmailCategory(hamProbs);
-        res.all = new EmailCategory(allProbs);
-        return res;
+        EmailCategory spam = new EmailCategory(spamProbs);
+        EmailCategory ham = new EmailCategory(hamProbs);
+        EmailCategory all = new EmailCategory(allProbs);
+        return new Predictor(spam, ham, all);
     }
 }
