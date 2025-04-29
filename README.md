@@ -10,4 +10,4 @@ Words that appear more often in one type of email compared to the other are sele
 In the model files (cat-all.csv, cat-ham.csv, cat-spam.csv), feature words are stored along with their probability of occuring in each type of email.
 
 Accuracy:
-Usuallty >90%, varies depending on training dataset
+Usually >90%, varies depending on training dataset
